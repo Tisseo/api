@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const defaults = require('./sanitize_defaults');
 const MIN_SIZE = 1;
 const MAX_SIZE = 40;
 const DEFAULT_SIZE = 10;
@@ -8,7 +9,7 @@ function _setup( size_min, size_max, size_def ){
 
   // allow caller to inject custom min/max/default values
   if( !_.isFinite( size_min ) ){ size_min = MIN_SIZE; }
-  if( !_.isFinite( size_max ) ){ size_max = MAX_SIZE; }
+  if( !_.isFinite( size_max ) ){ size_max = (_.isEmpty(defaults['SIZE:MAX']) ? MAX_SIZE: defaults['SIZE:MAX']) ; }
   if( !_.isFinite( size_def ) ){ size_def = DEFAULT_SIZE; }
 
   return {

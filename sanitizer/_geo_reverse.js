@@ -1,9 +1,10 @@
 const _ = require('lodash');
+const defaults = require('../query/reverse_defaults');
 const geo_common = require ('./_geo_common');
 const LAT_LON_IS_REQUIRED = true;
 const CIRCLE_IS_REQUIRED = false;
 const CIRCLE_MIN_RADIUS = 0.00001;
-const CIRCLE_MAX_RADIUS = 5.0;
+let CIRCLE_MAX_RADIUS = 5.0;
 
 // validate inputs, convert types and apply defaults
 function _sanitize( raw, clean ){
@@ -18,6 +19,10 @@ function _sanitize( raw, clean ){
 
   if (['lat', 'lon'].some(hasBoundaryCircleField)) {
     messages.warnings.push('boundary.circle.lat/boundary.circle.lon are currently unsupported');
+  }
+  // update `CIRCLE_MAX_RADIUS` value
+  if (!_.isEmpty(defaults['boundary:circle:max'])){
+   CIRCLE_MAX_RADIUS = defaults['boundary:circle:max'];
   }
 
   try {
