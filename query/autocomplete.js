@@ -9,6 +9,7 @@ const toSingleField = require('./view/helper').toSingleField;
 // additional views (these may be merged in to pelias/query at a later date)
 var views = {
   custom_boosts:              require('./view/boost_sources_and_layers'),
+  exact_matches_boosts:              require('./view/boost_exact_matches'),
   ngrams_strict:              require('./view/ngrams_strict'),
   ngrams_last_token_only:     require('./view/ngrams_last_token_only'),
   ngrams_last_token_only_multi: require('./view/ngrams_last_token_only_multi'),
@@ -52,6 +53,7 @@ query.score( peliasQuery.view.focus( peliasQuery.view.leaf.match_all ) );
 query.score( peliasQuery.view.popularity( peliasQuery.view.leaf.match_all ) );
 query.score( peliasQuery.view.population( peliasQuery.view.leaf.match_all ) );
 query.score( views.custom_boosts( config.get('api.customBoosts') ) );
+query.score( views.exact_matches_boosts() );
 
 // non-scoring hard filters
 query.filter( views.max_character_count_layer_filter(['address'], config.get('api.autocomplete.exclude_address_length' ) ) );
